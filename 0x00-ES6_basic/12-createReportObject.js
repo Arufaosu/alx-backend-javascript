@@ -1,3 +1,4 @@
+"Write a function named createReportObject"
 export default function createReportObject(employeesList) {
 	return {
 		allEmployees: employeesList,
