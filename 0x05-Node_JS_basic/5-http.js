@@ -1,40 +1,57 @@
-const http = require('http');
-const countStudents = require('./3-read_file_async');
-const fs = require('fs');
+const { createServer } = require('http');
+const { readFile } = require('fs');
 
-function fileExists(filepath) {
-    return fs.existsSync(filepath);
+function writeStudents(path) {
+  return new Promise((resolve, reject) => {
+    readFile(path, 'utf-8', ((err, data) => {
+      if (err) {
+        const error = new Error('Cannot load the database');
+        reject(error);
+      } else {
+        let response = '';
+
+        const lines = data.split('\n').filter((line) => line !== '').slice(1);
+        const items = lines.map((line) => line.split(','));
+
+        response += `Number of students: ${items.length}`;
+
+        const studentsByFields = {};
+        items.forEach((item) => {
+          const firstName = item[0];
+          const field = item[3];
+
+          if (!studentsByFields[field]) {
+            studentsByFields[field] = [firstName];
+          } else {
+            studentsByFields[field].push(firstName);
+          }
+        });
+
+        for (const field in studentsByFields) {
+          if (Object.hasOwnProperty.call(studentsByFields, field)) {
+            const names = studentsByFields[field].join(', ');
+            const count = studentsByFields[field].length;
+            response += `\nNumber of students in ${field}: ${count}. List: ${names}`;
+          }
+        }
+
+        resolve(response);
+      }
+    }));
+  });
 }
 
-const app = http.createServer(async (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-
-    if (req.url === '/') {
-        res.end("Hello Holberton School!");
-    } else if (req.url === '/students') {
-        const databasePath = process.argv[2];
-        
-        if (!fileExists(databasePath)) {
-            res.writeHead(500);
-            res.end("Cannot load the database");
-        } else {
-            res.write("This is the list of our students\n");
-            try {
-                await countStudents(databasePath);
-                res.end();
-            } catch (error) {
-                res.writeHead(500);
-                res.end("Cannot load the database");
-            }
-        }
-    } else {
-        res.writeHead(404);
-        res.end("Not Found");
-    }
-});
-
-app.listen(1245, () => {
-    console.log("Server is listening on port 1245");
-});
+const app = createServer((req, res) => {
+  if (req.url === '/') {
+    res.end('Hello Holberton School!');
+  } else if (req.url === '/students') {
+    res.write('');
+    writeStudents(process.argv[2])
+      .then((data) => res.end(`This is the list of our students\n${data}`))
+      .catch((error) => {
+        res.end(error.stack);
+      });
+  }
+}).listen(1245);
 
 module.exports = app;

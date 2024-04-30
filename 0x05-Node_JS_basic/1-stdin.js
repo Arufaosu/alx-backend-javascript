@@ -1,14 +1,16 @@
 #!/usr/bin/node
-process.stdout.write("Welcome to Holberton School, what is your name?\n");
 
-process.stdin.on('readable', () => {
-	const name = process.stdin.read();
+console.log('Welcome to Holberton School, what is your name?');
 
-	if (name) {
-		process.stdout.write('Your name is: ${name}');
-	}
+let inputData = '';
+
+process.stdin.on('data', (chunk) => {
+  inputData += chunk;
 });
 
 process.stdin.on('end', () => {
-	process.stdout.write("This important software is now closing\n");
+  const name = inputData.trim();
+  console.log(`Your name is: ${name}`);
+  console.log('This important software is now closing');
 });
+
