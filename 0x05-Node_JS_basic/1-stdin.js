@@ -2,15 +2,16 @@
 
 console.log('Welcome to Holberton School, what is your name?');
 
-let inputData = '';
+process.stdin.setEncoding("utf8");
 
-process.stdin.on('data', (chunk) => {
-  inputData += chunk;
+process.stdin.on('data', (data) => {
+	const name = data.trim();
+
+	console.log(`Your name is: ${name}`);
+
+	process.exit();
 });
 
-process.stdin.on('end', () => {
-  const name = inputData.trim();
-  console.log(`Your name is: ${name}`);
-  console.log('This important software is now closing');
+process.on("exit", () => {
+    console.log("This important software is now closing");
 });
-
