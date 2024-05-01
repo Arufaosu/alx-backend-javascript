@@ -24,7 +24,7 @@ describe('calculateNumber - SUBTRACT', () => {
 
 describe('calculateNumber - DIVIDE', () => {
   it('should return 0.2 when rounding 1.4 and 4.5', () => {
-    expect(calculateNumber('DIVIDE', 1.4, 4.5)).to.be.closeTo(0.2, 0.01); // Using closeTo for decimals
+    expect(calculateNumber('DIVIDE', 1.4, 4.5)).to.be.closeTo(0.2, 0.01);
   });
 
   it('should return "Error" when rounding 1.4 and 0', () => {

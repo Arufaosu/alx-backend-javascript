@@ -1,0 +1,30 @@
+const sinon = require('sinon');
+const chai = require('chai');
+const expect = chai.expect;
+const Utils = require('./utils');
+const { sendPaymentRequestToApi } = require('./4-payment');
+
+describe('sendPaymentRequestToApi', () => {
+  let stub;
+  let consoleSpy;
+
+  beforeEach(() => {
+    stub = sinon.stub(Utils, 'calculateNumber').returns(10);
+    consoleSpy = sinon.spy(console, 'log');
+  });
+
+  afterEach(() => {
+    stub.restore();
+    consoleSpy.restore();
+  });
+
+  it('should return 10 when calling sendPaymentRequestToApi(100, 20)', () => {
+    sendPaymentRequestToApi(100, 20);
+
+    expect(stub.calledOnce).to.be.true;
+    expect(stub.calledWith('SUM', 100, 20)).to.be.true;
+
+    expect(consoleSpy.calledOnce).to.be.true;
+    expect(consoleSpy.calledWith('The total is: 10')).to.be.true;
+  });
+});
