@@ -1,0 +1,20 @@
+{
+  "name": "task_0",
+  "version": "1.0.0",
+  "description": "Mocha example with assert",
+  "main": "0-calcul.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "assert": "^2.1.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "sinon": "^17.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
