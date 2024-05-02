@@ -2,19 +2,34 @@ const assert = require("assert");
 const calculateNumber = require("./0-calcul.js");
 
 describe("calculateNumber", () => {
-  it("should return 4 when rounding 1 and 3", () => {
-    assert.strictEqual(calculateNumber(1, 3), 4);
+	it('2 & 2', () => {
+		assert.equal(calculateNumber(2, 2), 4);
   });
-
-  it("should return 5 when rounding 1 and 3.7", () => {
-    assert.strictEqual(calculateNumber(1, 3.7), 5);
+	
+	it('2.49 & 2.49', () => {
+		assert.equal(calculateNumber(2.49, 2.49), 4);
   });
-
-  it("should return 5 when rounding 1.2 and 3.7", () => {
-    assert.strictEqual(calculateNumber(1.2, 3.7), 5);
+	
+	it('2.5 & 2.49', () => {
+		assert.equal(calculateNumber(2.5, 2.49), 5);
   });
-
-  it("should return 6 when rounding 1.5 and 3.7", () => {
-    assert.strictEqual(calculateNumber(1.5, 3.7), 6);
+	
+	it('-6.3 & 1', () => {
+		assert.equal(calculateNumber(-6.3, 1), -5);
+  });
+	
+	it('-6.3 & -1', () => {
+		assert.equal(calculateNumber(-6.3, -1), -7);
+  });
+	
+	it('-6.8 & 1', () => {
+		assert.equal(calculateNumber(-6.8, 1), -6);
+  });
+	it('-6.8 & -1', () => {
+		assert.equal(calculateNumber(-6.8, -1), -8);
+  });
+	
+	it('6899 & 3160', () => {
+		assert.equal(calculateNumber(6899, 3160), 10059);
   });
 });
